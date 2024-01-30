@@ -29,10 +29,23 @@ jobs:
 
       - name: Exécution du script Python
         run: python3 script.py
-
-      - name: Discord notification
+  notify:
+    if: ${{ !cancelled()}}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Discord success notification
+        if: ${{ needs.build == 'success' }}
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
         with:
           args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been deployed!'
+
+      - name: Discord faill notification
+        if: ${{ needs.build != 'success' }}
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} hasn't been deployed!'
