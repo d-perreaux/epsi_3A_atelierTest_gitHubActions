@@ -29,7 +29,10 @@ jobs:
 
       - name: Exécution du script Python
         run: python3 script.py
-
+  notify:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
       - name: Discord notification
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
