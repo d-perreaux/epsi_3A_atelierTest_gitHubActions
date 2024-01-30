@@ -30,19 +30,12 @@ jobs:
       - name: Exécution du script Python
         run: python3 script.py
   notify:
-<<<<<<< HEAD
     if: ${{ !cancelled()}}
     runs-on: ubuntu-latest
     needs: build
     steps:
       - name: Discord success notification
         if: ${{ needs.build == 'success' }}
-=======
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Discord notification
->>>>>>> 6dfee0383de4899883f0d5bbff0b8fcfcd6e082f
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
