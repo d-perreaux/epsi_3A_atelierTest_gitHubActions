@@ -29,6 +29,21 @@ jobs:
 
       - name: Exécution du script Python
         run: python3 script.py
+
+  coverage:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: run coverage
+      run: coverage run -m pytest; coverage xml
+
+      - name: Get Cover
+      uses: orgoro/coverage@v3.1
+      with: 
+        coverageFile: coverage.txt
+        
+
+
   notify:
     if: ${{ !cancelled()}}
     runs-on: ubuntu-latest
